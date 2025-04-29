@@ -1,0 +1,94 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "\n            SELECT \n                id, channel_id, guid, title, description, link, pub_date,\n                duration, explicit, image_url, media_url, media_type, media_length\n            FROM podcast_episodes\n            WHERE channel_id = ANY($1)\n            ORDER BY pub_date DESC\n            ",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "id",
+        "type_info": "Int4"
+      },
+      {
+        "ordinal": 1,
+        "name": "channel_id",
+        "type_info": "Int4"
+      },
+      {
+        "ordinal": 2,
+        "name": "guid",
+        "type_info": "Varchar"
+      },
+      {
+        "ordinal": 3,
+        "name": "title",
+        "type_info": "Varchar"
+      },
+      {
+        "ordinal": 4,
+        "name": "description",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 5,
+        "name": "link",
+        "type_info": "Varchar"
+      },
+      {
+        "ordinal": 6,
+        "name": "pub_date",
+        "type_info": "Timestamptz"
+      },
+      {
+        "ordinal": 7,
+        "name": "duration",
+        "type_info": "Int4"
+      },
+      {
+        "ordinal": 8,
+        "name": "explicit",
+        "type_info": "Bool"
+      },
+      {
+        "ordinal": 9,
+        "name": "image_url",
+        "type_info": "Varchar"
+      },
+      {
+        "ordinal": 10,
+        "name": "media_url",
+        "type_info": "Varchar"
+      },
+      {
+        "ordinal": 11,
+        "name": "media_type",
+        "type_info": "Varchar"
+      },
+      {
+        "ordinal": 12,
+        "name": "media_length",
+        "type_info": "Int8"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Int4Array"
+      ]
+    },
+    "nullable": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      true,
+      false,
+      false,
+      false
+    ]
+  },
+  "hash": "063880b3fcb503e02bd22e16344b1230f77089588db81da0dda0ff2c6b7d2003"
+}

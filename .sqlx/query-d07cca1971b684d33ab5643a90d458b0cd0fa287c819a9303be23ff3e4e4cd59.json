@@ -1,0 +1,82 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "\n        SELECT \n            id, title, link, description, copyright, language,\n            author, owner_email, owner_name, image_url, last_build_date\n        FROM podcast_channels\n        WHERE id = ANY($1)\n        ORDER BY id ASC\n        ",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "id",
+        "type_info": "Int4"
+      },
+      {
+        "ordinal": 1,
+        "name": "title",
+        "type_info": "Varchar"
+      },
+      {
+        "ordinal": 2,
+        "name": "link",
+        "type_info": "Varchar"
+      },
+      {
+        "ordinal": 3,
+        "name": "description",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 4,
+        "name": "copyright",
+        "type_info": "Varchar"
+      },
+      {
+        "ordinal": 5,
+        "name": "language",
+        "type_info": "Varchar"
+      },
+      {
+        "ordinal": 6,
+        "name": "author",
+        "type_info": "Varchar"
+      },
+      {
+        "ordinal": 7,
+        "name": "owner_email",
+        "type_info": "Varchar"
+      },
+      {
+        "ordinal": 8,
+        "name": "owner_name",
+        "type_info": "Varchar"
+      },
+      {
+        "ordinal": 9,
+        "name": "image_url",
+        "type_info": "Varchar"
+      },
+      {
+        "ordinal": 10,
+        "name": "last_build_date",
+        "type_info": "Timestamptz"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Int4Array"
+      ]
+    },
+    "nullable": [
+      false,
+      false,
+      false,
+      false,
+      true,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false
+    ]
+  },
+  "hash": "d07cca1971b684d33ab5643a90d458b0cd0fa287c819a9303be23ff3e4e4cd59"
+}
