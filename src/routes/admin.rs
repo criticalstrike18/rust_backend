@@ -10,19 +10,7 @@ use crate::models::room::ConferenceRoomRequest;
 use crate::models::session::ConferenceSpeakerRequest;
 use crate::models::session::ConferenceSessionRequest;
 use crate::services::admin;
-use crate::services::sync::synchronize_with_sessionize;
 
-#[post("/sessionizeSync")]
-async fn sessionize_sync(
-    principal: KotlinConfPrincipal,
-    config: web::Data<AppConfig>,
-    pool: web::Data<sqlx::PgPool>,
-) -> Result<HttpResponse, ServiceError> {
-    validate_admin_secret(&principal, &config.service.secret).await?;
-    
-    synchronize_with_sessionize(&pool, &config.sessionize.url).await?;
-    Ok(HttpResponse::Ok().finish())
-}
 
 #[get("/time")]
 async fn get_time() -> HttpResponse {

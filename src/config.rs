@@ -1,4 +1,3 @@
-// src/config.rs
 use serde::Deserialize;
 use config::{Config, ConfigError, Environment, File};
 
@@ -15,12 +14,6 @@ pub struct DatabaseConfig {
 }
 
 #[derive(Debug, Deserialize, Clone)]
-pub struct SessionizeConfig {
-    pub url: String,
-    pub interval: u64,
-}
-
-#[derive(Debug, Deserialize, Clone)]
 pub struct ServiceConfig {
     pub environment: String,
     pub secret: String,
@@ -30,21 +23,30 @@ pub struct ServiceConfig {
 pub struct AppConfig {
     pub server: ServerConfig,
     pub database: DatabaseConfig,
-    pub sessionize: SessionizeConfig,
     pub service: ServiceConfig,
 }
 
 impl AppConfig {
     pub fn from_env() -> Result<Self, ConfigError> {
+        // Load .env file first
+        dotenv::dotenv().ok();
+        
+        // Determine database URL based on environment
+        let database_url = std::env::var("DATABASE_URL")
+            .unwrap_or_else(|_| {
+                if std::env::var("DOCKER_ENV").is_ok() {
+                    "postgres://postgres:postgres@db:5432/kotlinconfg".to_string()
+                } else {
+                    "postgres://postgres:postgres@localhost:5432/kotlinconfg".to_string()
+                }
+            });
+
         let config = Config::builder()
-            // Start with default values matching application.yaml
+            // Default values
             .set_default("server.host", "0.0.0.0")?
             .set_default("server.port", 8080)?
-            .set_default("database.url", "postgres://postgres:postgres@db:5432/kotlinconfg")?
+            .set_default("database.url", database_url)?
             .set_default("database.max_connections", 5)?
-            .set_default("sessionize.url", "https://sessionize.com/api/v2/cdftbl11/view/All")?
-            .set_default("sessionize.images_url", "https://sessionize.com/image/")?
-            .set_default("sessionize.interval", 60)?
             .set_default("service.environment", "production")?
             .set_default("service.secret", "admin")?
             // Try to load from a file if it exists

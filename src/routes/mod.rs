@@ -6,3 +6,4 @@ pub mod feedback;
 pub mod admin;
 pub mod sessions;
 pub mod podcast;
+pub mod sync;

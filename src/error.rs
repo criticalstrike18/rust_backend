@@ -1,6 +1,6 @@
-// src/error.rs
 use actix_web::{error::ResponseError, http::StatusCode, HttpResponse};
 use derive_more::Display;
+use serde_json::Error as SerdeError;
 
 #[derive(Debug, Display)]
 pub enum ServiceError {
@@ -28,7 +28,7 @@ pub enum ServiceError {
 
 impl ResponseError for ServiceError {
     fn error_response(&self) -> HttpResponse {
-        match self {  // Remove the * dereference operator
+        match self {
             ServiceError::InternalServerError => {
                 HttpResponse::InternalServerError().json("Internal Server Error")
             }
@@ -71,5 +71,13 @@ impl From<reqwest::Error> for ServiceError {
     fn from(err: reqwest::Error) -> ServiceError {
         log::error!("Request error: {:?}", err);
         ServiceError::ServiceUnavailable
+    }
+}
+
+// Implement From for SerdeJSON errors
+impl From<SerdeError> for ServiceError {
+    fn from(err: SerdeError) -> ServiceError {
+        log::error!("Serialization error: {:?}", err);
+        ServiceError::InternalServerError
     }
 }

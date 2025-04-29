@@ -1,4 +1,3 @@
-// src/main.rs
 mod auth;
 mod config;
 mod db;
@@ -9,15 +8,11 @@ mod services;
 
 use actix_web::{App, HttpServer, middleware, web};
 use config::AppConfig;
-use db::create_pool;
-use sqlx::{PgPool, Row};
-use dotenv::dotenv;
+use db::create_pool_with_retry;
 use std::sync::Arc;
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
-    dotenv().ok();
-
     // Initialize logger
     env_logger::init_from_env(env_logger::Env::default().default_filter_or("info"));
 
@@ -25,11 +20,11 @@ async fn main() -> std::io::Result<()> {
     let config = Arc::new(AppConfig::from_env().expect("Failed to load configuration"));
     log::info!("Environment: {}", config.service.environment);
 
-    // Database connection
+    // Database connection with retry
     let database_url = &config.database.url;
     log::info!("Connecting to database at '{}'", database_url);
 
-    let pool = create_pool(database_url, config.database.max_connections)
+    let pool = create_pool_with_retry(database_url, config.database.max_connections, 5)
         .await
         .expect("Failed to create database pool");
 
@@ -39,48 +34,9 @@ async fn main() -> std::io::Result<()> {
         Ok(_) => log::info!("Database migrations completed successfully"),
         Err(e) => {
             log::error!("Failed to run migrations: {:?}", e);
-
-            // Emergency fallback: try to create tables directly if migrations fail
-            if let Err(fallback_err) = ensure_tables_exist(&pool).await {
-                log::error!("Emergency table creation also failed: {:?}", fallback_err);
-                panic!(
-                    "Cannot initialize database. Please check your database connection and schema."
-                );
-            } else {
-                log::warn!("Used emergency table creation as fallback");
-            }
+            log::warn!("Continuing without migrations - tables should already exist");
         }
     }
-
-    async fn ensure_tables_exist(pool: &PgPool) -> Result<(), sqlx::Error> {
-        // Check if podcast tables exist
-        let table_check =
-            sqlx::query("SELECT to_regclass('podcast_channels') IS NOT NULL as exists")
-                .fetch_one(pool)
-                .await?;
-
-        let tables_exist: bool = table_check.get("exists");
-
-        if !tables_exist {
-            log::info!("Podcast tables don't exist. Creating them manually...");
-
-            // Get the SQL content from the migration file
-            let sql = include_str!("../migrations/20250430000000_create_podcast_tables.sql");
-
-            // Execute the SQL
-            sqlx::query(sql).execute(pool).await?;
-            log::info!("Manually created podcast tables");
-        }
-
-        Ok(())
-    }
-
-    // Start synchronization service
-    services::start_sync_service(
-        pool.clone(),
-        config.sessionize.interval,
-        config.sessionize.url.clone(),
-    );
 
     // Start server
     let server_config = config.clone();
@@ -103,7 +59,6 @@ async fn main() -> std::io::Result<()> {
             .service(routes::feedback::post_feedback)
             .service(routes::feedback::get_feedback_summary)
             // Admin routes
-            .service(routes::admin::sessionize_sync)
             .service(routes::admin::get_time)
             .service(routes::admin::set_time)
             .service(routes::admin::add_admin_session)
@@ -125,6 +80,8 @@ async fn main() -> std::io::Result<()> {
             .service(routes::podcast::send_podcast_request)
             .service(routes::podcast::import_podcast)
             .service(routes::podcast::get_all_podcasts)
+            // Sync routes
+            .configure(routes::sync::config)
             // Health check
             .route("/healthz", web::get().to(|| async { "OK" }))
     })
