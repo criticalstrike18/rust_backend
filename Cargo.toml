@@ -14,7 +14,7 @@ reqwest = "0.12.15"
 serde = "1.0.219"
 serde_derive = "1.0.219"
 serde_json = "1.0.140"
-sqlx = { version = "0.8.5", features = ["postgres", "runtime-tokio-native-tls", "macros"] }
+sqlx = { version = "0.8", features = ["postgres","runtime-tokio-native-tls","macros","migrate","offline"] }
 tokio = { version = "1.44.2", features = ["rt-multi-thread", "macros"] }
 tokio-cron-scheduler = "0.13.0"
 uuid = "1.16.0"

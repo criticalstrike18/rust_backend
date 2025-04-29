@@ -25,7 +25,7 @@ impl AppConfig {
             // Start with default values
             .set_default("server.host", "127.0.0.1")?
             .set_default("server.port", 8080)?
-            .set_default("database.url", "postgres://postgres:postgres@localhost/appdb")?
+            .set_default("database.url", "postgres://postgres:postgres@localhost:5432/kotlinconfg")?
             .set_default("database.max_connections", 5)?
             // Add in settings from environment variables (with a prefix of APP)
             // E.g., `APP_SERVER__PORT=5001 would set server.port`
