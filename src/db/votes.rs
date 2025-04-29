@@ -1,5 +1,5 @@
 // src/db/votes.rs
-use chrono::Utc;
+use chrono::{DateTime, Utc};
 use sqlx::PgPool;
 
 use crate::error::ServiceError;

@@ -7,20 +7,13 @@ use crate::error::ServiceError;
 // This is a placeholder for the actual synchronization logic
 // In a real implementation, you would fetch data from Sessionize API and update the database
 pub async fn synchronize_with_sessionize(
-    pool: &PgPool,
+    _pool: &PgPool,  // Add underscore to unused parameter
     url: &str,
 ) -> Result<(), ServiceError> {
-    let client = Client::new();
+    let _client = Client::new();  // Add underscore to unused variable
     
-    // In a real implementation, you would:
-    // 1. Fetch data from Sessionize API
-    // 2. Parse the response
-    // 3. Update the database with the new data
-    
+    // Rest of the function
     log::info!("Synchronizing with Sessionize at: {}", url);
-    
-    // For now, we just log that we're doing it but don't actually fetch data
-    // This is to avoid making real API calls during development
     
     Ok(())
 }

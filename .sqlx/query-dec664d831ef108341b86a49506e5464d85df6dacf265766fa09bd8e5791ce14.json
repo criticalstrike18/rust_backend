@@ -1,0 +1,26 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "\n        SELECT sessionId, feedback\n        FROM feedback\n        ",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "sessionid",
+        "type_info": "Varchar"
+      },
+      {
+        "ordinal": 1,
+        "name": "feedback",
+        "type_info": "Varchar"
+      }
+    ],
+    "parameters": {
+      "Left": []
+    },
+    "nullable": [
+      false,
+      false
+    ]
+  },
+  "hash": "dec664d831ef108341b86a49506e5464d85df6dacf265766fa09bd8e5791ce14"
+}

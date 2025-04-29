@@ -1,5 +1,4 @@
 // src/db/sessions.rs
-use chrono::{DateTime, Utc};
 use sqlx::PgPool;
 use uuid::Uuid;
 
@@ -225,9 +224,9 @@ pub async fn get_session_by_id(
             starts_at: row.starts_at,
             ends_at: row.ends_at,
             room_id: row.room_id,
-            is_service_session: row.is_service_session,
-            is_plenum_session: row.is_plenum_session,
-            status: row.status,
+            is_service_session: row.is_service_session.unwrap_or(false),
+            is_plenum_session: row.is_plenum_session.unwrap_or(false),
+            status: row.status.unwrap_or_else(|| "draft".to_string()),
             speaker_ids,
             category_ids,
         }))
@@ -288,9 +287,9 @@ pub async fn get_all_sessions(pool: &PgPool) -> Result<Vec<SessionInfo>, Service
             starts_at: row.starts_at,
             ends_at: row.ends_at,
             room_id: row.room_id,
-            is_service_session: row.is_service_session,
-            is_plenum_session: row.is_plenum_session,
-            status: row.status,
+            is_service_session: row.is_service_session.unwrap_or(false),
+            is_plenum_session: row.is_plenum_session.unwrap_or(false),
+            status: row.status.unwrap_or_else(|| "draft".to_string()),
             speaker_ids,
             category_ids,
         });

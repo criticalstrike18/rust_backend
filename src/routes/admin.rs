@@ -8,6 +8,7 @@ use crate::error::ServiceError;
 use crate::models::category::ConferenceCategoriesRequest;
 use crate::models::room::ConferenceRoomRequest;
 use crate::models::session::ConferenceSpeakerRequest;
+use crate::models::session::ConferenceSessionRequest;
 use crate::services::admin;
 use crate::services::sync::synchronize_with_sessionize;
 

@@ -1,11 +1,9 @@
 // src/auth.rs
 use actix_web::{
-    dev::Payload, error::ErrorUnauthorized, http::header, web, Error, FromRequest, HttpRequest,
+    dev::Payload, error::ErrorUnauthorized, http::header, Error, FromRequest, HttpRequest,
 };
 use futures::future::{ready, Ready};
 use sqlx::PgPool;
-use std::future::Future;
-use std::pin::Pin;
 
 use crate::db::users;
 use crate::error::ServiceError;
@@ -52,7 +50,7 @@ pub async fn validate_admin_secret(
     admin_secret: &str,
 ) -> Result<(), ServiceError> {
     if principal.token != admin_secret {
-        return Err(ServiceError::Unauthorized);
+        return Err(ServiceError::SecretInvalid);  // Use SecretInvalid instead of Unauthorized
     }
     Ok(())
 }

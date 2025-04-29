@@ -1,0 +1,88 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "\n            SELECT \n                id, guid, title, description, link, pub_date, \n                duration, explicit, image_url, media_url, media_type, media_length\n            FROM podcast_episodes\n            WHERE channel_id = $1\n            ORDER BY pub_date DESC\n            ",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "id",
+        "type_info": "Int4"
+      },
+      {
+        "ordinal": 1,
+        "name": "guid",
+        "type_info": "Varchar"
+      },
+      {
+        "ordinal": 2,
+        "name": "title",
+        "type_info": "Varchar"
+      },
+      {
+        "ordinal": 3,
+        "name": "description",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 4,
+        "name": "link",
+        "type_info": "Varchar"
+      },
+      {
+        "ordinal": 5,
+        "name": "pub_date",
+        "type_info": "Timestamptz"
+      },
+      {
+        "ordinal": 6,
+        "name": "duration",
+        "type_info": "Int4"
+      },
+      {
+        "ordinal": 7,
+        "name": "explicit",
+        "type_info": "Bool"
+      },
+      {
+        "ordinal": 8,
+        "name": "image_url",
+        "type_info": "Varchar"
+      },
+      {
+        "ordinal": 9,
+        "name": "media_url",
+        "type_info": "Varchar"
+      },
+      {
+        "ordinal": 10,
+        "name": "media_type",
+        "type_info": "Varchar"
+      },
+      {
+        "ordinal": 11,
+        "name": "media_length",
+        "type_info": "Int8"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Int4"
+      ]
+    },
+    "nullable": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      true,
+      false,
+      false,
+      false
+    ]
+  },
+  "hash": "e09c294338908e58ac0ee2a118b62365c2d03aa503d138f2ec8dfe51dc17a1ab"
+}

@@ -1,0 +1,15 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "\n        DELETE FROM votes\n        WHERE uuid = $1 AND sessionId = $2\n        ",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Left": [
+        "Text",
+        "Text"
+      ]
+    },
+    "nullable": []
+  },
+  "hash": "923c5c8042a0579653ce495946edaad2baffa954e941edea22956f4ae980eefa"
+}

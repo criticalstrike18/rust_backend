@@ -43,6 +43,8 @@ impl AppConfig {
             .set_default("server.port", 8080)?
             .set_default("database.url", "postgres://postgres:postgres@db:5432/kotlinconfg")?
             .set_default("database.max_connections", 5)?
+            .set_default("sessionize.url", "https://sessionize.com/api/v2/cdftbl11/view/All")?
+            .set_default("sessionize.images_url", "https://sessionize.com/image/")?
             .set_default("sessionize.interval", 60)?
             .set_default("service.environment", "production")?
             .set_default("service.secret", "admin")?

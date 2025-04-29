@@ -1,7 +1,6 @@
 // src/error.rs
 use actix_web::{error::ResponseError, http::StatusCode, HttpResponse};
 use derive_more::Display;
-use std::fmt;
 
 #[derive(Debug, Display)]
 pub enum ServiceError {
@@ -29,11 +28,11 @@ pub enum ServiceError {
 
 impl ResponseError for ServiceError {
     fn error_response(&self) -> HttpResponse {
-        match self {
+        match self {  // Remove the * dereference operator
             ServiceError::InternalServerError => {
                 HttpResponse::InternalServerError().json("Internal Server Error")
             }
-            ServiceError::BadRequest(ref message) => HttpResponse::BadRequest().json(message),
+            ServiceError::BadRequest(message) => HttpResponse::BadRequest().json(message),
             ServiceError::Unauthorized => HttpResponse::Unauthorized().json("Unauthorized"),
             ServiceError::NotFound => HttpResponse::NotFound().json("Not Found"),
             ServiceError::ServiceUnavailable => {

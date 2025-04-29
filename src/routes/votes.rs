@@ -41,8 +41,7 @@ async fn post_vote(
     // Check if voting period has started
     let now_time = now();
     if now_time < session.starts_at.timestamp_millis() {
-        return Ok(HttpResponse::build(StatusCode::from_u16(477).unwrap())
-            .json("Come Back Later"));
+        return Err(ServiceError::ComeBackLater);  // Use ComeBackLater instead of building a response manually
     }
     
     // Change the vote

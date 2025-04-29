@@ -1,0 +1,17 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "\n            UPDATE votes\n            SET rating = $3, timestamp = $4, updated_at = NOW()\n            WHERE uuid = $1 AND sessionId = $2\n            ",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Left": [
+        "Text",
+        "Text",
+        "Int4",
+        "Varchar"
+      ]
+    },
+    "nullable": []
+  },
+  "hash": "1faed438c2d507e67fc6aeb93543e121a2627a940038a42b85443677fc383297"
+}
