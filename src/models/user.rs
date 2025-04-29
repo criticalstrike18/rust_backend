@@ -1,3 +1,4 @@
+// src/models/user.rs
 use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Serialize, Deserialize)]

@@ -7,14 +7,18 @@ edition = "2024"
 actix-web = "4.10.2"
 actix-web-httpauth = "0.8.2"
 awc = "3.6.0"
-chrono = "0.4.40"
+chrono = { version = "0.4.40", features = ["serde"] }
 config = "0.15.11"
+derive_more = "0.99.11"
 dotenv = "0.15.0"
-reqwest = "0.12.15"
-serde = "1.0.219"
+env_logger = "0.11.3"
+futures = "0.3.30"
+log = "0.4.20"
+reqwest = { version = "0.12.15", features = ["json"] }
+serde = { version = "1.0.219", features = ["derive"] }
 serde_derive = "1.0.219"
 serde_json = "1.0.140"
-sqlx = { version = "0.8", features = ["postgres","runtime-tokio-native-tls","macros","migrate","offline"] }
-tokio = { version = "1.44.2", features = ["rt-multi-thread", "macros"] }
+sqlx = { version = "0.8", features = ["postgres","runtime-tokio-native-tls","macros","migrate", "chrono",] }
+tokio = { version = "1.44.2", features = ["rt-multi-thread", "macros", "time"] }
 tokio-cron-scheduler = "0.13.0"
-uuid = "1.16.0"
+uuid = { version = "1.16.0", features = ["v4", "serde"] }
