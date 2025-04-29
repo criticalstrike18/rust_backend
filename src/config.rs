@@ -17,7 +17,6 @@ pub struct DatabaseConfig {
 #[derive(Debug, Deserialize, Clone)]
 pub struct SessionizeConfig {
     pub url: String,
-    pub images_url: String,
     pub interval: u64,
 }
 

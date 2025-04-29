@@ -3,7 +3,7 @@ use chrono::{DateTime, Utc};
 use sqlx::PgPool;
 
 use crate::error::ServiceError;
-use crate::models::podcast::{ChannelFullData, EpisodeData, PodcastImportRequest, PodcastQueryInfo};
+use crate::models::podcast::{ChannelFullData, EpisodeData, PodcastImportRequest};
 
 pub async fn store_podcast_query(
     pool: &PgPool,

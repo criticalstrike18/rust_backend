@@ -4,7 +4,7 @@ use uuid::Uuid;
 
 use crate::error::ServiceError;
 use crate::models::conference::{Conference, Session, Speaker};
-use crate::models::session::{ConferenceSessionRequest, SessionInfo, SpeakerInfo};
+use crate::models::session::{ConferenceSessionRequest, SessionInfo};
 
 pub async fn get_conference_data(pool: &PgPool) -> Result<Conference, ServiceError> {
     // Query sessions
