@@ -49,12 +49,20 @@ pub async fn get_conference_data(pool: &PgPool) -> Result<Conference, ServiceErr
             session_row.id
         )
         .fetch_all(pool)
-        .await?
-        .into_iter()
-        .map(|row| row.title)
-        .collect::<Vec<String>>();
+        .await?;
         
-        // Create session object
+        // Debug log the category data
+        log::info!("Session {}: Found {} categories", session_row.id, tags.len());
+        if !tags.is_empty() {
+            log::info!("First category title: {:?}", tags.first().map(|t| &t.title));
+        }
+        
+        let tag_titles = tags
+            .into_iter()
+            .map(|row| row.title)
+            .collect::<Vec<String>>();
+        
+        // Create session object with optional tags that may be null instead of empty
         result_sessions.push(Session {
             id: session_row.id,
             title: session_row.title,
@@ -63,7 +71,7 @@ pub async fn get_conference_data(pool: &PgPool) -> Result<Conference, ServiceErr
             location: session_row.room_name.unwrap_or_else(|| "Unknown Room".to_string()),
             starts_at: session_row.starts_at,
             ends_at: session_row.ends_at,
-            tags: Some(tags),
+            tags: if tag_titles.is_empty() { None } else { Some(tag_titles) },
         });
     }
     
