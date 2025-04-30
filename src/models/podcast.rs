@@ -10,9 +10,17 @@ pub struct ChannelData {
     pub copyright: Option<String>,
     pub language: Option<String>,
     pub author: Option<String>,
+    
+    #[serde(rename = "ownerEmail")]
     pub owner_email: Option<String>,
+    
+    #[serde(rename = "ownerName")]
     pub owner_name: Option<String>,
+    
+    #[serde(rename = "imageUrl")]
     pub image_url: Option<String>,
+    
+    #[serde(rename = "lastBuildDate")]
     pub last_build_date: Option<String>,
 }
 
@@ -23,13 +31,26 @@ pub struct EpisodeData {
     pub title: String,
     pub description: String,
     pub link: String,
+    
+    #[serde(rename = "pubDate")]
     pub pub_date: DateTime<Utc>,
+    
     pub duration: Option<i32>,
     pub explicit: bool,
+    
+    #[serde(rename = "imageUrl")]
     pub image_url: Option<String>,
+    
+    #[serde(rename = "mediaUrl")]
     pub media_url: Option<String>,
+    
+    #[serde(rename = "mediaType")]
     pub media_type: Option<String>,
+    
+    #[serde(rename = "mediaLength")]
     pub media_length: Option<i64>,
+    
+    #[serde(rename = "episodeCategory")]
     pub episode_category: Vec<String>,
 }
 
@@ -49,10 +70,19 @@ pub struct ChannelFullData {
     pub copyright: Option<String>,
     pub language: Option<String>,
     pub author: Option<String>,
+    
+    #[serde(rename = "ownerEmail")]
     pub owner_email: Option<String>,
+    
+    #[serde(rename = "ownerName")]
     pub owner_name: Option<String>,
+    
+    #[serde(rename = "imageUrl")]
     pub image_url: Option<String>,
+    
+    #[serde(rename = "lastBuildDate")]
     pub last_build_date: Option<String>,
+    
     pub categories: Vec<String>,
     pub episodes: Vec<EpisodeData>,
 }
@@ -61,5 +91,7 @@ pub struct ChannelFullData {
 pub struct PodcastQueryInfo {
     pub title: String,
     pub author: String,
+    
+    #[serde(rename = "rssLink")]
     pub rss_link: String,
 }

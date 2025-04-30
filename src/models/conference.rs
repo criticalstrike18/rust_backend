@@ -1,19 +1,12 @@
 // src/models/conference.rs
 use chrono::{DateTime, Utc};
 use serde::{Deserialize, Serialize};
-use serde::ser::Serializer;
+use crate::models::session::serialize_datetime_as_gmt;
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Conference {
     pub sessions: Vec<Session>,
     pub speakers: Vec<Speaker>,
-}
-
-fn serialize_datetime_no_z<S>(dt: &DateTime<Utc>, serializer: S) -> Result<S::Ok, S::Error>
-where
-    S: Serializer,
-{
-    serializer.serialize_str(dt.format("%Y-%m-%dT%H:%M:%S").to_string().as_str())
 }
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -27,13 +20,13 @@ pub struct Session {
     
     pub location: String,
     
-    #[serde(rename = "startsAt", serialize_with = "serialize_datetime_no_z")]
+    #[serde(rename = "startsAt", serialize_with = "serialize_datetime_as_gmt")]
     pub starts_at: DateTime<Utc>,
-    #[serde(rename = "endsAt", serialize_with = "serialize_datetime_no_z")]
+    
+    #[serde(rename = "endsAt", serialize_with = "serialize_datetime_as_gmt")]
     pub ends_at: DateTime<Utc>,
     
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub tags: Option<Vec<String>>
+    pub tags: Vec<String>,
 }
 
 #[derive(Debug, Serialize, Deserialize)]

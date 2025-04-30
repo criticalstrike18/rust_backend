@@ -39,7 +39,7 @@ pub async fn get_conference_data(pool: &PgPool) -> Result<Conference, ServiceErr
         .collect::<Vec<String>>();
         
         // Get tags (categories) for this session
-        let tags = sqlx::query!(
+        let tags = match sqlx::query!(
             r#"
             SELECT cc.title
             FROM session_categories sc
@@ -49,7 +49,13 @@ pub async fn get_conference_data(pool: &PgPool) -> Result<Conference, ServiceErr
             session_row.id
         )
         .fetch_all(pool)
-        .await?;
+        .await {
+            Ok(results) => results,
+            Err(e) => {
+                log::error!("Error fetching tags for session {}: {}", session_row.id, e);
+                Vec::new() // Return empty vector on error
+            }
+        };
         
         // Debug log the category data
         log::info!("Session {}: Found {} categories", session_row.id, tags.len());
@@ -71,7 +77,7 @@ pub async fn get_conference_data(pool: &PgPool) -> Result<Conference, ServiceErr
             location: session_row.room_name.unwrap_or_else(|| "Unknown Room".to_string()),
             starts_at: session_row.starts_at,
             ends_at: session_row.ends_at,
-            tags: if tag_titles.is_empty() { None } else { Some(tag_titles) },
+            tags: tag_titles,
         });
     }
     

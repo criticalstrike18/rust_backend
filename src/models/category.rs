@@ -6,6 +6,7 @@ pub struct CategoriesTable {
     pub id: i64,
     pub title: String,
     pub sort: Option<i32>,
+    #[serde(rename = "type")]
     pub type_name: Option<String>,
 }
 
@@ -13,5 +14,6 @@ pub struct CategoriesTable {
 pub struct ConferenceCategoriesRequest {
     pub title: String,
     pub sort: Option<i32>,
+    #[serde(rename = "type")]
     pub type_name: Option<String>,
 }

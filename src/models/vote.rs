@@ -25,6 +25,7 @@ impl Score {
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct VoteInfo {
+    #[serde(rename = "sessionId")]
     pub session_id: String,
     pub score: Option<Score>,
 }

@@ -17,6 +17,7 @@ pub struct ConferenceRoomRequest {
 #[derive(Debug, Serialize, Deserialize)]
 pub struct RoomResponse {
     pub success: bool,
+    #[serde(rename = "roomId")]
     pub room_id: Option<i32>,
     pub message: Option<String>,
 }
